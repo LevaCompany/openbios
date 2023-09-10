@@ -174,15 +174,12 @@ macparts_open( macparts_info_t *di )
 			}
 				
 			/* If we have a valid, allocated and readable partition... */
-			if( (__be32_to_cpu(par.pmPartStatus) & kPartitionAUXIsValid) &&
-				(__be32_to_cpu(par.pmPartStatus) & kPartitionAUXIsAllocated) &&
-				(__be32_to_cpu(par.pmPartStatus) & kPartitionAUXIsReadable) ) {
-				
-				/* If the partition is also bootable and the pmProcessor field matches "PowerPC" (insensitive
-				 * match), then according to the CHRP bindings this is our chosen partition */
-				for (j = 0; j < strlen(par.pmProcessor); j++) {
-				    par.pmProcessor[j] = tolower(par.pmProcessor[j]);
-				}
+ if(! ((__be32_to_cpu(par.pmPartStatus) & kPartitionAUXIsValid) &&
+			(__be32_to_cpu(par.pmPartStatus) & kPartitionAUXIsAllocated) &&
+			(__be32_to_cpu(par.pmPartStatus) & kPartitionAUXIsReadable)) ) {
+		DPRINTF("Partition %d is not valid, allocated and readable\n", parnum);
+			//goto out;
+	    }
 				
 				if ((__be32_to_cpu(par.pmPartStatus) & kPartitionAUXIsBootValid) &&
 				    strcmp(par.pmProcessor, "powerpc") == 0) {
