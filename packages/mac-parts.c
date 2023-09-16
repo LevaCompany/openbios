@@ -174,7 +174,7 @@ macparts_open( macparts_info_t *di )
 			}
 				
 			/* If we have a valid, allocated and readable partition... */
- if(! ((__be32_to_cpu(par.pmPartStatus) & kPartitionAUXIsValid) &&
+                        if(! ((__be32_to_cpu(par.pmPartStatus) & kPartitionAUXIsValid) &&
 			(__be32_to_cpu(par.pmPartStatus) & kPartitionAUXIsAllocated) &&
 			(__be32_to_cpu(par.pmPartStatus) & kPartitionAUXIsReadable)) ) {
 		DPRINTF("Partition %d is not valid, allocated and readable\n", parnum);
